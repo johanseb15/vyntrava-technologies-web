@@ -21,6 +21,10 @@ describe('ADEL-WEB-002 / Landing comercial y editorial', () => {
     expect(screen.getByRole('heading', { name: 'IA aplicada' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /ideas que se pueden probar/i })).toBeTruthy();
     expect(screen.getByRole('heading', { name: /adel. una forma sistemática/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'ADEL Framework' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Enki' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'WhoLivesHere' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: /explorar repositorio/i }).getAttribute('href')).toBe('https://github.com/johanseb15/ADEL-Framework');
   });
   it('identifica las visualizaciones conceptuales y evita cifras de resultados no verificadas', () => {
     render(<Home />);
