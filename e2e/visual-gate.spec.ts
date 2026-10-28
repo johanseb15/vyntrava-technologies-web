@@ -67,11 +67,36 @@ test('ADEL Visual Gate — fallback 3D y movimiento reducido', async ({ page }, 
     HTMLCanvasElement.prototype.getContext = () => null;
   });
   await page.goto('/');
-  const scene = page.getByRole('img', { name: /ilustración abstracta de sistemas conectados/i });
+  const scene = page.getByRole('img', { name: /diagrama de arquitectura: servicios conectados mediante flujos de datos/i });
   await expect(scene).toBeVisible();
-  await expect(scene.locator('.scene-fallback')).toBeVisible();
+  await expect(scene.locator('.architecture-fallback')).toBeVisible();
   await testInfo.attach('adel-fallback-3d', {
     body: await scene.screenshot({ animations: 'disabled' }),
     contentType: 'image/png',
   });
+});
+
+test('ADEL Visual Gate — recursos fotográficos visibles cargan correctamente', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const resourceState = await page.evaluate(async () => {
+    const selectors = ['.hero-photo','.work-photo','.stack-image-industrial','.stack-image-data','.stack-image-office','.contact-photo'];
+    return await Promise.all(selectors.map(async (selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return { selector, ok: false, reason: 'MISSING_ELEMENT' };
+      const bg = getComputedStyle(element).backgroundImage;
+      const urls = Array.from(bg.matchAll(/url\\(["']?([^"')]+)["']?\\)/g)).map(match => match[1]);
+      if (urls.length === 0) return { selector, ok: false, reason: 'NO_PHOTO_URL' };
+      const url = urls[0];
+      const img = new Image();
+      img.src = url;
+      try {
+        await Promise.race([
+          img.decode(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT')), 12000)),
+        ]);
+        return { selector, ok: img.naturalWidth > 0, reason: 'IMAGE_DECODE' };
+      } catch { return { selector, ok: false, reason: 'LOAD_ERROR' }; }
+    }));
+  });
+  expect(resourceState.filter(item => !item.ok), JSON.stringify(resourceState, null, 2)).toEqual([]);
 });
