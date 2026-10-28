@@ -1,5 +1,7 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { afterEach, describe, it, expect, vi } from 'vitest';
+import { cleanup, render, screen } from '@testing-library/react';
+
+afterEach(() => cleanup());
 vi.mock('@/components/hero-scene', () => ({ HeroScene: () => <div data-testid="scene-fallback" /> }));
 import Home from '@/app/page';
 describe('ADEL-WEB-001 / Landing accesible sin WebGL', () => {
