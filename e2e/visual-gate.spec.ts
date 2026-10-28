@@ -84,7 +84,7 @@ test('ADEL Visual Gate — recursos fotográficos visibles cargan correctamente'
       const element = document.querySelector(selector);
       if (!element) return { selector, ok: false, reason: 'MISSING_ELEMENT' };
       const bg = getComputedStyle(element).backgroundImage;
-      const urls = Array.from(bg.matchAll(/url\\(["']?([^"')]+)["']?\\)/g)).map(match => match[1]);
+      const urls = Array.from(bg.matchAll(/url\(["']?([^"')]+)["']?\)/g)).map(match => match[1]);
       if (urls.length === 0) return { selector, ok: false, reason: 'NO_PHOTO_URL' };
       const url = urls[0];
       const img = new Image();
