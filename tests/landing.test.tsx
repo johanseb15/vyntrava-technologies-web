@@ -4,19 +4,28 @@ import { cleanup, render, screen } from '@testing-library/react';
 afterEach(() => cleanup());
 vi.mock('@/components/hero-scene', () => ({ HeroScene: () => <div data-testid="scene-fallback" /> }));
 import Home from '@/app/page';
-describe('ADEL-WEB-001 / Landing accesible sin WebGL', () => {
-  it('presenta propuesta de valor y CTA aunque la escena 3D no exista', () => {
+
+describe('ADEL-WEB-002 / Landing comercial y editorial', () => {
+  it('presenta una oferta concreta con contacto accesible sin WebGL', () => {
     render(<Home />);
-    expect(screen.getByRole('heading', { level: 1, name: /ideas complejas.*soluciones claras/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 1, name: /soluciones reales para un trabajo más eficiente/i })).toBeTruthy();
     expect(screen.getByRole('link', { name: /contanos tu desafío/i }).getAttribute('href')).toBe('#contacto');
     expect(screen.getByRole('link', { name: /contactar a vyntrava/i }).getAttribute('href')).toMatch(/^mailto:/);
   });
-  it('incluye navegación y las cuatro capacidades', () => {
+  it('distingue los servicios, el laboratorio y la metodología ADEL', () => {
     render(<Home />);
     expect(screen.getByRole('navigation', { name: /navegación principal/i })).toBeTruthy();
-    expect(screen.getByText('Software a medida')).toBeTruthy();
-    expect(screen.getByText('Automatización')).toBeTruthy();
-    expect(screen.getByText('Datos y analítica')).toBeTruthy();
-    expect(screen.getByText('IA aplicada')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Software a medida' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Automatización' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Datos y analítica' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'IA aplicada' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /ideas que se pueden probar/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /adel. una forma sistemática/i })).toBeTruthy();
+  });
+  it('identifica las visualizaciones conceptuales y evita cifras de resultados no verificadas', () => {
+    render(<Home />);
+    expect(screen.getByText(/no corresponde a un cliente real/i)).toBeTruthy();
+    expect(screen.getByText(/ejemplo ilustrativo/i)).toBeTruthy();
+    expect(screen.queryByText(/\+40%/i)).toBeNull();
   });
 });
