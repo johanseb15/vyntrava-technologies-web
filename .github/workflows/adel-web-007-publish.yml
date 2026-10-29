@@ -1,0 +1,95 @@
+name: ADEL WEB 007 - Publish to GitHub Pages
+
+# Manual only. This workflow must be merged into the default branch to appear
+# under GitHub Actions' "Run workflow" menu.
+on:
+  workflow_dispatch:
+    inputs:
+      approval:
+        description: 'Type PUBLICAR to authorize deployment after reviewing ADEL gates'
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vyntrava-pages-production
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: ${{ github.ref == 'refs/heads/main' && inputs.approval == 'PUBLICAR' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Run unit tests
+        run: npm test
+      - name: Check TypeScript
+        run: npm run typecheck
+      - name: Install required browsers
+        run: npx playwright install --with-deps chromium webkit
+      - name: Run end-to-end acceptance tests
+        run: npx playwright test --project=chromium --project=mobile --workers=2
+      - name: Build GitHub Pages export without indexing
+        env:
+          DEPLOY_TARGET: github-pages
+          NEXT_PUBLIC_ENABLE_INDEXING: 'false'
+        run: npm run build
+      - name: Verify static output and privacy links
+        env:
+          DEPLOY_TARGET: github-pages
+        run: node scripts/verify-export.mjs
+      - name: Prevent GitHub Pages Jekyll processing
+        run: touch out/.nojekyll
+      - uses: actions/configure-pages@v5
+      - name: Upload verified Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out/
+      - name: Preserve diagnostics if verification fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adel-web-007-deploy-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish approved artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Confirm public site and privacy route return HTTP 200
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          root="${PAGE_URL%/}/"
+          curl --fail --location --retry 5 --retry-delay 3 "$root" -o /tmp/vyntrava-home.html
+          curl --fail --location --retry 5 --retry-delay 3 "${root}politica-de-privacidad/" -o /tmp/vyntrava-privacy.html
+          grep -qi "Vyntrava" /tmp/vyntrava-home.html
+          grep -qi "privacidad" /tmp/vyntrava-privacy.html
+          echo "ADEL-WEB-007: HTTPS smoke checks PASS"
