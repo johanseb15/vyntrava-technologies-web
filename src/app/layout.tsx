@@ -30,12 +30,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="es" className={`${displayFont.variable} ${bodyFont.variable}`}>
-    <head>
-      <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
-      <link rel="preload" as="image" href="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&q=75" media="(max-width: 620px)" fetchPriority="high" />
-      <link rel="preload" as="image" href="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2000&q=80" media="(min-width: 621px)" fetchPriority="high" />
-    </head>
-    <body>{children}</body>
-  </html>;
+  return <html lang="es" className={`${displayFont.variable} ${bodyFont.variable}`}><body>{children}</body></html>;
 }
