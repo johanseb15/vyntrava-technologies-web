@@ -26,3 +26,7 @@ Prototipo de laboratorio. No se ha verificado aún el build ni Playwright en est
 
 ## Metodología
 Ver `docs/ADEL-WEB-001.md`. Cambios mediante rama y PR, nunca publicación directa sin gates aprobados.
+
+## Conocimiento de diseño Vyntrava
+
+La biblioteca de referencias de interfaces, patrones de conversión y efectos visuales se mantiene en [VYNTRAVA-DESIGN-INTELLIGENCE-001](docs/VYNTRAVA-DESIGN-INTELLIGENCE-001.md). Es investigación para diseño y futuros productos; no incorpora dependencias, pagos ni recursos de terceros sin licencia verificada.
