@@ -1,0 +1,57 @@
+name: ADEL WEB 007 - Build and release candidate
+
+# This workflow validates an explicit release candidate.
+# No automatic publication. Deployment to Pages requires a later approved workflow.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop/adel-web-001
+    paths:
+      - 'src/**'
+      - 'next.config.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tests/**'
+      - 'e2e/**'
+      - 'scripts/**'
+      - '.github/workflows/adel-web-007-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Unit tests
+        run: npm test
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Local build, preview noindex
+        run: npm run build
+      - name: Check local HTML export
+        run: node scripts/verify-export.mjs
+      - name: Build as GitHub Pages (still noindex)
+        env:
+          DEPLOY_TARGET: github-pages
+          NEXT_PUBLIC_ENABLE_INDEXING: 'false'
+        run: npm run build
+      - name: Check Pages export and repository subpath
+        env:
+          DEPLOY_TARGET: github-pages
+        run: node scripts/verify-export.mjs
+      - name: Upload static release candidate (not published)
+        uses: actions/upload-artifact@v4
+        with:
+          name: vyntrava-pages-release-candidate
+          path: out/
+          if-no-files-found: error
+          retention-days: 7
