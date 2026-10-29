@@ -40,3 +40,30 @@ h1{letter-spacing:-.052em;font-weight:700;line-height:1.1}
 .eyebrow{letter-spacing:.13em}
 .hero-description,.section-intro>p,.work-copy>p:not(.eyebrow),.product-layout>div>p:not(.eyebrow),.engineering-copy>p:not(.eyebrow){letter-spacing:.004em}
 @media(max-width:620px){.hero-content h1{letter-spacing:-.045em;line-height:1.1}}
+
+
+/* ADEL-WEB-006 · mobile navigation & release UI */
+.header-actions{display:flex;align-items:center;gap:10px}
+.mobile-menu-trigger{display:none;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #c9d6d0;border-radius:5px;color:#0b2424;background:#fff;cursor:pointer}
+.mobile-menu-backdrop{display:none}
+.mobile-menu-panel{display:none}
+.footer-links{display:flex;align-items:center;gap:24px}
+.legal-main{min-height:65vh;background:#f7f9f7;padding:90px 0 110px}
+.legal-inner{max-width:840px}
+.legal-main h1{font-size:clamp(38px,5vw,62px);margin:0 0 26px}
+.legal-main h2{font-size:23px;letter-spacing:-.03em;margin:34px 0 12px}
+.legal-main p,.legal-main li{font-size:16px;line-height:1.8;color:#415250}
+.legal-main a{color:#116b5c;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:920px){
+  .site-header{position:relative}
+  .site-header .site-nav{display:none}
+  .mobile-menu-trigger{display:flex;position:relative;z-index:32}
+  .mobile-menu-backdrop{display:block;position:fixed;inset:0;background:#0413119a;z-index:19}
+  .mobile-menu-panel{display:block;position:absolute;top:100%;left:0;right:0;padding:0;background:#f8faf9;border-bottom:1px solid #cad8d0;box-shadow:0 22px 40px #0a1b1a24;z-index:25;visibility:hidden;opacity:0;transform:translateY(-8px);pointer-events:none}
+  .mobile-menu-panel.is-open{visibility:visible;opacity:1;transform:translateY(0);pointer-events:auto}
+  .mobile-menu-panel nav{padding:15px 32px 25px;display:grid}
+  .mobile-menu-panel a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 4px;border-bottom:1px solid #dfe9e4;font-family:var(--font-display);font-size:17px;font-weight:650}
+  .mobile-menu-panel a:last-child{border-bottom:0}
+}
+@media(max-width:620px){.mobile-menu-panel nav{padding:12px 18px 22px}.header-actions{margin-left:auto}.footer-links{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){.mobile-menu-panel{transition:none!important}}
