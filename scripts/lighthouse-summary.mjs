@@ -8,7 +8,7 @@ const lines = [
   '|---|---:|---:|',
 ];
 const reports = modes.map(mode => {
-  const result = JSON.parse(readFileSync(`lighthouse-results/${mode}.report.json`, 'utf8'));
+  const result = JSON.parse(readFileSync(`lighthouse-results/${mode}.json`, 'utf8'));
   const categories = result.categories ?? {};
   const audit = result.audits ?? {};
   return {
