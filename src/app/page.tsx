@@ -1,5 +1,6 @@
 import { ArrowUpRight, ArrowRight, Code2, Workflow, ChartNoAxesCombined, BrainCircuit, ShieldCheck, Layers3, ClipboardCheck, GitBranch, MonitorCog, Database, Check, Mail } from 'lucide-react';
 import { HeroScene } from '@/components/hero-scene';
+import { SiteNavigation } from '@/components/site-navigation';
 
 const solutions = [
   { title: 'Software a medida', description: 'Aplicaciones, portales e integraciones que se adaptan a la forma en que trabaja tu empresa.', Icon: Code2, tag: 'DESARROLLO' },
@@ -25,10 +26,7 @@ export default function Home() {
             <span className="wordmark-symbol">V<span>.</span></span>
             <span className="wordmark-name">VYNTRAVA<small>TECHNOLOGIES</small></span>
           </a>
-          <nav className="site-nav" aria-label="Navegación principal">
-            <a href="#servicios">Servicios</a><a href="#productos">Productos</a><a href="#ingenieria">Nuestra ingeniería</a><a href="#proyectos">Proyectos</a><a href="#contacto">Contacto</a>
-          </nav>
-          <a className="button button-dark header-button" href="#contacto">Hablemos <ArrowUpRight size={16} aria-hidden="true" /></a>
+          <SiteNavigation />
         </div>
       </header>
 
@@ -95,7 +93,7 @@ export default function Home() {
       <section className="contact-section" id="contacto" aria-labelledby="contact-title">
         <div className="contact-photo" aria-hidden="true"/><div className="wrap contact-layout"><div><p className="eyebrow eyebrow-dark">EMPECEMOS A TRABAJAR</p><h2 id="contact-title">Hablemos de tu proyecto.</h2><p>Contanos qué necesitás resolver. Podemos ayudarte a definir el próximo paso.</p><a className="button button-dark" href="mailto:sebasmol2010@gmail.com?subject=Consulta%20comercial%20-%20Vyntrava%20Technologies">Contactar a Vyntrava <Mail size={17} aria-hidden="true"/></a></div><div className="contact-benefits"><span><Check size={18}/> Primera conversación sin compromiso</span><span><Check size={18}/> Propuesta ajustada al problema</span><span><Check size={18}/> Enfoque de ingeniería verificable</span><span><Check size={18}/> Comunicación directa</span></div></div>
       </section>
-      <footer className="footer"><div className="wrap footer-inner"><span>© {new Date().getFullYear()} Vyntrava Technologies</span><span>Ingeniería de software · Datos · Automatización · IA</span><a href="#inicio">Volver arriba ↑</a></div></footer>
+      <footer className="footer"><div className="wrap footer-inner"><span>© {new Date().getFullYear()} Vyntrava Technologies · Córdoba, Argentina</span><span>Ingeniería de software · Datos · Automatización · IA</span><div className="footer-links"><a href="/politica-de-privacidad/">Privacidad</a><a href="#inicio">Volver arriba ↑</a></div></div></footer>
     </main>
   );
 }
