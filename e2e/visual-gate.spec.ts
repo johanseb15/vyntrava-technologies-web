@@ -22,6 +22,7 @@ const sections = [
 
 for (const size of sizes) {
   test(`ADEL Visual Gate — ${size.name}: capturas y geometría`, async ({ page }, testInfo) => {
+    test.setTimeout(90000); // Capturas múltiples y recursos externos bajo carga en CI o equipos modestos.
     await page.setViewportSize({ width: size.width, height: size.height });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/', { waitUntil: 'networkidle' });
@@ -42,7 +43,9 @@ for (const size of sizes) {
     for (const section of sections) {
       const target = page.locator(`#${section.id}`);
       await expect(target).toHaveCount(1);
-      await target.scrollIntoViewIfNeeded();
+      // Evitar el auto-scroll de Playwright sobre secciones grandes: espera estabilidad
+      // incluso cuando el layout es correcto y puede agotar el timeout global.
+      await target.evaluate(element => window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY, behavior: 'instant' }));
       await testInfo.attach(`${section.label}-${size.name}`, {
         body: await target.screenshot({ animations: 'disabled' }),
         contentType: 'image/png',
