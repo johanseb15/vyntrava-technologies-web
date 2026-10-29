@@ -100,3 +100,20 @@ test('ADEL Visual Gate — recursos fotográficos visibles cargan correctamente'
   });
   expect(resourceState.filter(item => !item.ok), JSON.stringify(resourceState, null, 2)).toEqual([]);
 });
+
+test('ADEL Visual Gate — sistema tipográfico corporativo y geometría tras carga', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const fonts = await page.evaluate(async () => {
+    await document.fonts.ready;
+    const heading = document.querySelector('h1');
+    return {
+      display: heading ? getComputedStyle(heading).fontFamily : '',
+      body: getComputedStyle(document.body).fontFamily,
+      overflow: document.documentElement.scrollWidth - window.innerWidth,
+    };
+  });
+  expect(fonts.display).toContain('Manrope');
+  expect(fonts.body).toContain('IBM Plex Sans');
+  expect(fonts.overflow).toBeLessThanOrEqual(2);
+});
