@@ -1,0 +1,56 @@
+name: ADEL WEB 007 - Lighthouse production audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop/adel-web-001
+    paths:
+      - '.github/workflows/adel-web-007-lighthouse.yml'
+      - 'scripts/lighthouse-summary.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Build production static export (root-mounted for audit)
+        env:
+          NEXT_PUBLIC_ENABLE_INDEXING: 'false'
+        run: npm run build
+      - name: Launch production static server
+        run: |
+          python3 -m http.server 4173 --directory out > /tmp/vyntrava-static.log 2>&1 &
+          echo $! > /tmp/vyntrava-static.pid
+          for attempt in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:4173/ >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/vyntrava-static.log
+          exit 1
+      - name: Lighthouse mobile and desktop
+        run: |
+          mkdir -p lighthouse-results
+          npx --yes lighthouse@12 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --preset=perf --form-factor=mobile --screenEmulation.mobile=true --output=json --output=html --output-path=./lighthouse-results/mobile
+          npx --yes lighthouse@12 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --preset=desktop --output=json --output=html --output-path=./lighthouse-results/desktop
+      - name: Publish scores and lab metrics in job summary
+        run: node scripts/lighthouse-summary.mjs
+      - name: Store complete Lighthouse evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adel-web-007-lighthouse-evidence
+          path: |
+            lighthouse-results/
+            /tmp/vyntrava-static.log
+          if-no-files-found: ignore
+          retention-days: 14
