@@ -21,6 +21,7 @@ const stages = [
 export default function Home() {
   return (
     <main id="inicio">
+      <a className="skip-link" href="#hero-title">Saltar al contenido</a>
       <header className="site-header">
         <div className="wrap header-inner">
           <a href="#inicio" className="wordmark" aria-label="Vyntrava Technologies — inicio">
