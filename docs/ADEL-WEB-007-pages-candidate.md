@@ -24,3 +24,17 @@
 
 ## Release rules
 Do not merge into `main`, enable a deployment workflow, point a custom domain or turn on indexing as part of the candidate CI. Do not claim a published site until it is opened and verified over HTTPS. Use a SHA-tagged artifact for rollback.
+
+## Controlled publishing (prepared on development branch)
+- Workflow: `.github/workflows/adel-web-007-publish.yml`.
+- Dispatch is **manual only** and runs **only** if invoked against `main` with exact confirmation `PUBLICAR`.
+- GitHub Actions `workflow_dispatch` requires the workflow to exist on the default branch before it is selectable.
+- The deployment workflow itself runs both browsers, tests, typecheck, Pages build, export assertions and HTTP smoke checks.
+- Configure **Settings → Pages → Build and deployment → Source = GitHub Actions**.
+- Configure **Settings → Environments → github-pages → Required reviewers** if available for the repository plan; check deployment branch restrictions. Without environment reviewers, the explicit manual dispatch plus confirmation is the approval mechanism.
+- After final CEO/founder review of the approved commit, merge the verified candidate into `main` through a reviewed PR. This is a **separate authorized action**, not part of the preparation phase.
+- Open Actions → `ADEL WEB 007 - Publish to GitHub Pages` → Run workflow, choose `main`, type `PUBLICAR`.
+- The build uses `NEXT_PUBLIC_ENABLE_INDEXING=false`: **publicly accessible** still means **noindex**. Only enable indexing in a later, explicitly approved SEO release.
+- Pages domain is expected to be `https://johanseb15.github.io/vyntrava-technologies-web/` in repository subpath mode. A custom domain requires changing basePath and renewed QA.
+- Deployment cannot prove mail actually arrives; run a real outbound/inbound contact test after publication.
+- Do not treat an unreviewed privacy notice, unverified external photo licensing or an unexecuted WCAG/Lighthouse audit as passed.
