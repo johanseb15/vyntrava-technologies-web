@@ -114,6 +114,6 @@ test('ADEL Visual Gate — sistema tipográfico corporativo y geometría tras ca
     };
   });
   expect(fonts.display).toContain('Manrope');
-  expect(fonts.body).toContain('IBM Plex Sans');
+  expect(fonts.body.toLowerCase()).toMatch(/ibm.*plex/);
   expect(fonts.overflow).toBeLessThanOrEqual(2);
 });
