@@ -40,7 +40,7 @@ jobs:
       - name: Lighthouse mobile and desktop
         run: |
           mkdir -p lighthouse-results
-          npx --yes lighthouse@12 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --preset=perf --form-factor=mobile --screenEmulation.mobile=true --output=json --output=html --output-path=./lighthouse-results/mobile
+          npx --yes lighthouse@12 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --form-factor=mobile --screenEmulation.mobile=true --output=json --output=html --output-path=./lighthouse-results/mobile
           npx --yes lighthouse@12 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --preset=desktop --output=json --output=html --output-path=./lighthouse-results/desktop
       - name: Publish scores and lab metrics in job summary
         run: node scripts/lighthouse-summary.mjs
