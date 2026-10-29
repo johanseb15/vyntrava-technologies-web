@@ -2,18 +2,36 @@ name: ADEL Quality Gates
 on:
   push:
   pull_request:
+permissions:
+  contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+      # Both configured projects are mandatory: chromium and mobile (WebKit).
+      - name: Install Chromium and WebKit with Linux dependencies
+        run: npx playwright install --with-deps chromium webkit
+      - name: Run complete cross-browser acceptance suite
+        run: npx playwright test --project=chromium --project=mobile --workers=2
+      - name: Preserve Playwright diagnostics on failed runs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adel-quality-gates-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
