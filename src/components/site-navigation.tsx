@@ -41,7 +41,7 @@ export function SiteNavigation() {
     {open && <div className="mobile-menu-backdrop" onClick={() => {setOpen(false); trigger.current?.focus();}} aria-hidden="true"/>}
     <div id="vyntrava-mobile-nav" ref={panel} className={`mobile-menu-panel ${open ? 'is-open' : ''}`} aria-hidden={!open} inert={!open}>
       <nav aria-label="Navegación móvil">
-        {links.map(link => <a href={link.href} key={link.href} onClick={() => setOpen(false)}>{link.label}<ArrowUpRight size={16} aria-hidden="true"/></a>)}
+        {links.map(link => <a href={link.href} key={link.href} onClick={event => { event.preventDefault(); window.location.hash = link.href; setOpen(false); }}>{link.label}<ArrowUpRight size={16} aria-hidden="true"/></a>)}
       </nav>
     </div>
   </>;
