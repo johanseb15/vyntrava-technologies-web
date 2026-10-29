@@ -18,9 +18,23 @@ test('ADEL-WEB-006: menú móvil accesible y navegación funcional', async ({ pa
   await expect(page.getByRole('button', { name: 'Abrir menú' })).toBeFocused();
 });
 
-test('ADEL-WEB-006: política de privacidad accesible desde el pie', async ({ page }) => {
+test('ADEL-WEB-006: ruta de privacidad responde directamente', async ({ page }) => {
+  const response = await page.goto('/politica-de-privacidad/');
+  expect(response?.status(), 'La ruta de privacidad debe existir y devolver HTTP 200').toBe(200);
+  await expect(page.getByRole('heading', { level: 1, name: 'Política de privacidad' })).toBeVisible();
+});
+
+test('ADEL-WEB-006: política de privacidad accesible desde el pie', async ({ page }, testInfo) => {
+  const failedRequests: string[] = [];
+  page.on('requestfailed', request => failedRequests.push(`${request.method()} ${request.url()}: ${request.failure()?.errorText}`));
   await page.goto('/');
-  await page.getByRole('link', { name: 'Privacidad' }).click();
+  const link = page.getByRole('link', { name: 'Privacidad' });
+  await expect(link).toHaveAttribute('href', '/politica-de-privacidad/');
+  await link.click();
+  await testInfo.attach('diagnostico-navegacion-privacidad.json', {
+    body: Buffer.from(JSON.stringify({ url: page.url(), failedRequests }, null, 2)),
+    contentType: 'application/json',
+  });
   await expect(page).toHaveURL(/\/politica-de-privacidad\/?$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Política de privacidad' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Volver al inicio' }).first()).toBeVisible();
