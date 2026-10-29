@@ -18,7 +18,7 @@ const bodyFont = IBM_Plex_Sans({
 export const metadata: Metadata = {
   title: 'Vyntrava Technologies | Ingeniería de software, datos y automatización',
   description: 'Desarrollamos software a medida, automatizaciones y soluciones de datos para empresas. Ingeniería verificable orientada a problemas reales.',
-  robots: { index: false, follow: false },
+  robots: { index: process.env.NEXT_PUBLIC_ENABLE_INDEXING === 'true', follow: process.env.NEXT_PUBLIC_ENABLE_INDEXING === 'true' },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
