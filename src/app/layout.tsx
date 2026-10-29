@@ -18,6 +18,14 @@ const bodyFont = IBM_Plex_Sans({
 export const metadata: Metadata = {
   title: 'Vyntrava Technologies | Ingeniería de software, datos y automatización',
   description: 'Desarrollamos software a medida, automatizaciones y soluciones de datos para empresas. Ingeniería verificable orientada a problemas reales.',
+  applicationName: 'Vyntrava Technologies',
+  openGraph: {
+    type: 'website',
+    locale: 'es_AR',
+    siteName: 'Vyntrava Technologies',
+    title: 'Vyntrava Technologies | Software, datos y automatización',
+    description: 'Soluciones empresariales de software, datos, automatización e inteligencia artificial aplicada.',
+  },
   robots: { index: process.env.NEXT_PUBLIC_ENABLE_INDEXING === 'true', follow: process.env.NEXT_PUBLIC_ENABLE_INDEXING === 'true' },
 };
 
