@@ -37,11 +37,29 @@ jobs:
           done
           cat /tmp/vyntrava-static.log
           exit 1
-      - name: Lighthouse mobile and desktop
+      - name: Identify Chrome and Lighthouse versions
+        run: |
+          node --version
+          npm --version
+          command -v google-chrome || command -v chromium || true
+          google-chrome --version || chromium --version || true
+          npx --yes lighthouse@12 --version
+      - name: Lighthouse mobile (static production build)
         run: |
           mkdir -p lighthouse-results
-          npx --yes lighthouse@12 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --form-factor=mobile --screenEmulation.mobile=true --output=json --output=html --output-path=./lighthouse-results/mobile
-          npx --yes lighthouse@12 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --preset=desktop --output=json --output=html --output-path=./lighthouse-results/desktop
+          npx --yes lighthouse@12 http://127.0.0.1:4173/ \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --output=json --output-path=./lighthouse-results/mobile.json \
+            --max-wait-for-load=45000
+      - name: Lighthouse desktop (static production build)
+        run: |
+          npx --yes lighthouse@12 http://127.0.0.1:4173/ \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --preset=desktop \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --output=json --output-path=./lighthouse-results/desktop.json \
+            --max-wait-for-load=45000
       - name: Publish scores and lab metrics in job summary
         run: node scripts/lighthouse-summary.mjs
       - name: Store complete Lighthouse evidence
@@ -49,8 +67,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: adel-web-007-lighthouse-evidence
-          path: |
-            lighthouse-results/
-            /tmp/vyntrava-static.log
+          path: lighthouse-results/
           if-no-files-found: ignore
           retention-days: 14
