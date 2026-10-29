@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Política de privacidad | Vyntrava Technologies',
   description: 'Información sobre los datos y comunicaciones recibidas a través del sitio de Vyntrava Technologies.',
 };
 export default function PrivacyPage() {
   return <>
-    <header className="site-header"><div className="wrap header-inner"><a href="/" className="wordmark" aria-label="Volver al inicio de Vyntrava"><span className="wordmark-symbol">V<span>.</span></span><span className="wordmark-name">VYNTRAVA<small>TECHNOLOGIES</small></span></a><a className="button button-dark" href="/">Volver al inicio</a></div></header>
+    <header className="site-header"><div className="wrap header-inner"><Link href="/" className="wordmark" aria-label="Volver al inicio de Vyntrava"><span className="wordmark-symbol">V<span>.</span></span><span className="wordmark-name">VYNTRAVA<small>TECHNOLOGIES</small></span></Link><Link className="button button-dark" href="/">Volver al inicio</Link></div></header>
     <main className="legal-main"><div className="wrap legal-inner">
       <p className="eyebrow eyebrow-dark">INFORMACIÓN LEGAL</p>
       <h1>Política de privacidad</h1>
@@ -22,6 +23,6 @@ export default function PrivacyPage() {
       <h2>Actualizaciones</h2>
       <p>Esta política deberá actualizarse cuando cambien los proveedores de alojamiento, los servicios integrados o la forma de tratamiento de datos. Antes de publicar, revisaremos que describa fielmente el despliegue y la operación reales.</p>
     </div></main>
-    <footer className="footer"><div className="wrap footer-inner"><span>© {new Date().getFullYear()} Vyntrava Technologies</span><a href="/">Volver al inicio</a></div></footer>
+    <footer className="footer"><div className="wrap footer-inner"><span>© {new Date().getFullYear()} Vyntrava Technologies</span><Link href="/">Volver al inicio</Link></div></footer>
   </>;
 }
