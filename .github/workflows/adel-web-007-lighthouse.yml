@@ -6,6 +6,10 @@ on:
     branches:
       - develop/adel-web-001
     paths:
+      - 'src/**'
+      - 'next.config.ts'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/adel-web-007-lighthouse.yml'
       - 'scripts/lighthouse-summary.mjs'
 
