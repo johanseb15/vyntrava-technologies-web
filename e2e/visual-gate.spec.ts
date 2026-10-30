@@ -90,6 +90,9 @@ test('ADEL Visual Gate — recursos fotográficos visibles cargan correctamente'
       const urls = Array.from(bg.matchAll(/url\(["']?([^"')]+)["']?\)/g)).map(match => match[1]);
       if (urls.length === 0) return { selector, ok: false, reason: 'NO_PHOTO_URL' };
       const url = urls[0];
+      if (new URL(url, location.href).origin !== location.origin) {
+        return { selector, ok: false, reason: 'EXTERNAL_IMAGE' };
+      }
       const img = new Image();
       img.src = url;
       try {

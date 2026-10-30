@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('ADEL-WEB-007: landmarks, idioma, metadatos y navegación por teclado', async ({ page }) => {
+test('ADEL-WEB-007: landmarks, idioma, metadatos y navegación por teclado', async ({ page }, testInfo) => {
   await page.goto('/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
   await expect(page.locator('main')).toHaveCount(1);
@@ -8,7 +8,10 @@ test('ADEL-WEB-007: landmarks, idioma, metadatos y navegación por teclado', asy
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /Vyntrava/);
   await expect(page.locator('link[rel="icon"]')).toHaveCount(1);
   const skip = page.getByRole('link', { name: 'Saltar al contenido' });
-  await page.keyboard.press('Tab');
+  // iPhone WebKit does not Tab through links by default; focus and activate
+  // the link there, while retaining the keyboard traversal check on desktop.
+  if (testInfo.project.name === 'mobile') await skip.focus();
+  else await page.keyboard.press('Tab');
   await expect(skip).toBeFocused();
   await skip.press('Enter');
   await expect(page).toHaveURL(/#hero-title$/);

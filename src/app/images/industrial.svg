@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="Ilustración técnica original de módulos industriales">
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#132c32"/><stop offset="1" stop-color="#2e5b58"/></linearGradient></defs>
+  <rect width="600" height="400" fill="url(#bg)"/>
+  <g stroke="#8bc8b8" stroke-width="2" fill="none" opacity=".72">
+    <path d="M40 80H560M40 160H560M40 240H560M40 320H560M100 40V360M220 40V360M340 40V360M460 40V360" opacity=".2"/>
+    <rect x="78" y="112" width="145" height="176" rx="8"/><rect x="255" y="74" width="245" height="214" rx="8"/>
+    <path d="M223 150h32M223 250h32M120 190h60M300 120h155M300 151h105M300 245h155"/>
+    <circle cx="150" cy="237" r="24"/><circle cx="390" cy="196" r="36"/>
+    <path d="M150 213v48m-24-24h48m216-77v72m-36-36h72"/>
+  </g>
+  <g fill="#a3ead2"><circle cx="223" cy="150" r="5"/><circle cx="255" cy="150" r="5"/><circle cx="223" cy="250" r="5"/><circle cx="255" cy="250" r="5"/></g>
+</svg>
