@@ -10,12 +10,12 @@ export default function PrivacyPage() {
     <main className="legal-main"><div className="wrap legal-inner">
       <p className="eyebrow eyebrow-dark">INFORMACIÓN LEGAL</p>
       <h1>Política de privacidad</h1>
-      <p><strong>Última actualización:</strong> 29 de octubre de 2026.</p>
+      <p><strong>Última actualización:</strong> 30 de octubre de 2026.</p>
       <p>Esta página describe el tratamiento previsto de las comunicaciones enviadas directamente a Vyntrava Technologies desde este sitio informativo. Responsable de contacto: Vyntrava Technologies, Córdoba, Argentina. Consultas relacionadas con privacidad: <a href="mailto:sebasmol2010@gmail.com">sebasmol2010@gmail.com</a>.</p>
       <h2>Datos recibidos y finalidad</h2>
       <p>El sitio no incorpora formularios propios ni solicita crear cuentas. El botón de contacto abre el programa de correo del visitante. Si nos escribís, recibiremos los datos que voluntariamente incluyas —por ejemplo, nombre, dirección de correo y descripción del proyecto— para responder a tu consulta y mantener la comunicación comercial relacionada.</p>
       <h2>Servicios técnicos externos</h2>
-      <p>El sitio utiliza fotografías alojadas en Unsplash, cuyos servidores reciben las solicitudes de descarga realizadas por el navegador. Al cargarlas, el navegador puede conectarse a su infraestructura y transmitir datos técnicos como la dirección IP. Las tipografías se incorporan al sitio durante su compilación mediante Next.js; no requieren cargar una hoja de estilos de Google Fonts desde el navegador. El alojamiento previsto para esta versión es GitHub Pages, un servicio de GitHub. Según su documentación, GitHub registra direcciones IP de los visitantes por motivos de seguridad. Para obtener detalles sobre ese tratamiento podés consultar la política de privacidad de GitHub.</p>
+      <p>El sitio utiliza fotografías alojadas en el propio sitio, basadas en imágenes de Unsplash. Su carga no requiere que el navegador se conecte a Unsplash. Las tipografías se incorporan al sitio durante su compilación mediante Next.js; no requieren cargar una hoja de estilos de Google Fonts desde el navegador. El alojamiento previsto para esta versión es GitHub Pages, un servicio de GitHub. Según su documentación, GitHub registra direcciones IP de los visitantes por motivos de seguridad. Para obtener detalles sobre ese tratamiento podés consultar la política de privacidad de GitHub.</p>
       <h2>Cookies y seguimiento</h2>
       <p>Esta versión no integra, en su código propio, herramientas de analítica publicitaria, píxeles de seguimiento ni formularios de captación de datos. Los proveedores externos pueden aplicar sus propias medidas técnicas y políticas. Revisaremos esta información si incorporamos analítica, formularios u otras funcionalidades.</p>
       <h2>Conservación y derechos</h2>
