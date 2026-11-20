@@ -1,3 +1,26 @@
+# vyntrava-technologies-web
+
+> **Ficha de proyecto — Vyntrava | 2026-11-20**
+> Revisión documental del repositorio. Esta ficha no certifica un despliegue ni un estado de producción.
+
+## Para qué sirve
+
+**Sitio corporativo de Vyntrava Technologies.** Aplicación Next.js/TypeScript con React Three Fiber, UI y contratos ADEL; incorpora documentación de dirección visual y procesos de QA.
+
+## Estado y límites
+
+El README documenta un estado de prototipo; no certifica publicación de producción. No mezclar desarrollo del sitio con datos de recuperación o material comercial sensible.
+
+## Lugar en el portfolio
+
+Punto de entrada corporativo y vitrina de productos; futura integración de estimador comercial solo previa SPEC, test RED y aprobación.
+
+[Consultar repositorio](https://github.com/johanseb15/vyntrava-technologies-web)
+
+---
+
+> **README técnico original:** se conserva íntegro a continuación.
+
 # Vyntrava Technologies Web
 
 Landing corporativa independiente, desarrollada desde cero con Next.js, React Three Fiber, Tailwind CSS y contratos ADEL.
